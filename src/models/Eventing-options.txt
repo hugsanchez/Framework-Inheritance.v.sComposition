@@ -1,0 +1,47 @@
+Wire Eventing back into the User
+
+#1 Accept dependencies as second constructor arguemnet
+
+constructor(private data: UserProps,
+            private events: Eventing) {}
+
+
+Keep adding on dependencies
+  => new User({id: 1}, new Eventing(), new Class..)
+
+
+
+#2 Only accept dependencies into constructor
+   Define a static class method to preconfifure
+   User and assign properties afterwards
+
+
+static fromData(data: UserProps): User {
+  const user = new User(new Eventing());
+  user.set(data);
+  return user;
+}
+** Would have to duplicate static if another class for "superEvents" was needed
+
+
+private data: UserProps;
+
+constructor(private events: Eventing){}
+
+
+
+#3 Only accept properties into constructor
+   Hard code dependencies as class properties
+
+  events: Eventing = new Eventing()
+  lose benefits of composition "swapping out different types of readers from last video"
+  but makes sense for what we are doing here
+
+  constructor(private data: UserProps){}
+
+
+
+  => const user = new User({});
+
+  will have preconfigured events module in it
+  user.events
